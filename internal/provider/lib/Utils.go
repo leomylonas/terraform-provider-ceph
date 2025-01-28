@@ -12,7 +12,7 @@ func ConvertInt64ToIntPointer(i *int64) *int64 {
 	if i == nil {
 		return nil
 	}
-	v := int64(*i)
+	v := *i
 	return &v
 }
 
@@ -20,7 +20,7 @@ func ConvertBoolToBoolPointer(b *bool) *bool {
 	if b == nil {
 		return nil
 	}
-	v := bool(*b)
+	v := *b
 	return &v
 }
 
@@ -28,6 +28,6 @@ func ConvertStringToStringPointer(s *string) *string {
 	if s == nil {
 		return nil
 	}
-	v := string(*s)
+	v := *s
 	return &v
 }

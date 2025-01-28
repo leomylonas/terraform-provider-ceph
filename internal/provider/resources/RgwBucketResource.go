@@ -103,7 +103,7 @@ func (r *RgwBucketResource) Create(ctx context.Context, req resource.CreateReque
 		return
 	}
 
-	if data.Permissions != nil && len(data.Permissions) > 0 {
+	if len(data.Permissions) > 0 {
 		s3BucketPolicy := model.GenerateS3BucketPolicyFromBucket(&data)
 		s3BucketPolicyJson, err := model.MarshalBucketPolicy(&s3BucketPolicy)
 		if err != nil {
@@ -120,7 +120,7 @@ func (r *RgwBucketResource) Create(ctx context.Context, req resource.CreateReque
 		}
 	}
 
-	if data.LifecycleDelete != nil && len(data.LifecycleDelete) > 0 {
+	if len(data.LifecycleDelete) > 0 {
 		s3LifecyclePolicy := model.GenerateS3LifecyclePolicyFromBucket(&data)
 		_, err = r.clientLibs.S3.PutBucketLifecycleConfiguration(&s3.PutBucketLifecycleConfigurationInput{
 			Bucket:                 data.Name.ValueStringPointer(),
@@ -326,7 +326,7 @@ func (r *RgwBucketResource) Update(ctx context.Context, req resource.UpdateReque
 	}
 	state.VersioningEnabled = desired.VersioningEnabled
 
-	if desired.Permissions != nil && len(desired.Permissions) > 0 {
+	if len(desired.Permissions) > 0 {
 		s3BucketPolicy := model.GenerateS3BucketPolicyFromBucket(&desired)
 		s3BucketPolicyJson, err := model.MarshalBucketPolicy(&s3BucketPolicy)
 		if err != nil {
@@ -351,7 +351,7 @@ func (r *RgwBucketResource) Update(ctx context.Context, req resource.UpdateReque
 		}
 	}
 
-	if desired.LifecycleDelete != nil && len(desired.LifecycleDelete) > 0 {
+	if len(desired.LifecycleDelete) > 0 {
 		s3LifecyclePolicy := model.GenerateS3LifecyclePolicyFromBucket(&desired)
 		_, err := r.clientLibs.S3.PutBucketLifecycleConfiguration(&s3.PutBucketLifecycleConfigurationInput{
 			Bucket:                 state.Name.ValueStringPointer(),
