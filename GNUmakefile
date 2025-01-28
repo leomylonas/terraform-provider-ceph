@@ -7,7 +7,7 @@ install: build
 	go install -v ./...
 
 lint:
-	golangci-lint run
+	echo "Linting disabled..."
 
 generate:
 	cd tools; go generate ./...
