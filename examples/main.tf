@@ -20,33 +20,33 @@ provider "ceph" {
 resource "ceph_rgw_user" "test" {
   id = "tf-test"
 }
-output resource_ceph_rgw_user_test {
-  value = resource.ceph_rgw_user.test
+output "resource_ceph_rgw_user_test" {
+  value     = resource.ceph_rgw_user.test
   sensitive = true
 }
 
 resource "ceph_rgw_bucket" "hot" {
-  name = "tf-test-hot"
+  name               = "tf-test-hot"
   versioning_enabled = true
   permission {
-    user_id = "tf-test"
+    user_id     = "tf-test"
     permissions = ["s3:GetObject", "s3:PutObject", "s3:ListBucket"]
   }
   lifecycle_delete {
     object_prefix = ""
-    after_days = 1
-    id = "delete-after-1-day"
+    after_days    = 1
+    id            = "delete-after-1-day"
   }
 }
-output resource_ceph_rgw_bucket_hot {
+output "resource_ceph_rgw_bucket_hot" {
   value = resource.ceph_rgw_bucket.hot
 }
 
 resource "ceph_rgw_bucket" "cold" {
-  name = "tf-test-cold"
+  name           = "tf-test-cold"
   placement_rule = "cold"
 }
-output resource_ceph_rgw_bucket_cold {
+output "resource_ceph_rgw_bucket_cold" {
   value = resource.ceph_rgw_bucket.cold
 }
 
