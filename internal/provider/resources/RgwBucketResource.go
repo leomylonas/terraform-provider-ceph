@@ -302,11 +302,6 @@ func (r *RgwBucketResource) Update(ctx context.Context, req resource.UpdateReque
 		return
 	}
 
-	if !desired.PlacementRule.IsNull() && !desired.PlacementRule.IsUnknown() && desired.Owner != state.Owner {
-		resp.Diagnostics.AddError("Update not supported", "Bucket owner cannot be changed")
-		return
-	}
-
 	var status string
 	if desired.VersioningEnabled.ValueBool() {
 		status = s3.BucketVersioningStatusEnabled

@@ -30,7 +30,6 @@ type RgwLifecycleDelete struct {
 type RgwBucket struct {
 	Name              types.String         `tfsdk:"name"`
 	PlacementRule     types.String         `tfsdk:"placement_rule"`
-	Owner             types.String         `tfsdk:"owner"`
 	Permissions       []RgwPermission      `tfsdk:"permission"`
 	LifecycleDelete   []RgwLifecycleDelete `tfsdk:"lifecycle_delete"`
 	VersioningEnabled types.Bool           `tfsdk:"versioning_enabled"`
@@ -40,7 +39,6 @@ func ToRgwBucket(bucket admin.Bucket) RgwBucket {
 	return RgwBucket{
 		Name:          types.StringValue(bucket.Bucket),
 		PlacementRule: types.StringValue(bucket.PlacementRule),
-		Owner:         types.StringValue(bucket.Owner),
 	}
 }
 
@@ -151,10 +149,6 @@ func GetRgwBucketDatasourceSchema() datasource.Schema {
 				Optional: true,
 				Computed: true,
 			},
-			"owner": datasource.StringAttribute{
-				Optional: true,
-				Computed: true,
-			},
 			"versioning_enabled": datasource.BoolAttribute{
 				Optional: true,
 				Computed: true,
@@ -207,10 +201,6 @@ func GetRgwBucketResourceSchema() resource.Schema {
 				Computed: true,
 			},
 			"placement_rule": resource.StringAttribute{
-				Optional: true,
-				Computed: true,
-			},
-			"owner": resource.StringAttribute{
 				Optional: true,
 				Computed: true,
 			},

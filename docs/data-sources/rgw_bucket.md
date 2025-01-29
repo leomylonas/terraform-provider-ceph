@@ -19,7 +19,6 @@ description: |-
 
 - `lifecycle_delete` (Block List) (see [below for nested schema](#nestedblock--lifecycle_delete))
 - `name` (String)
-- `owner` (String)
 - `permission` (Block List) (see [below for nested schema](#nestedblock--permission))
 - `placement_rule` (String)
 - `versioning_enabled` (Boolean)

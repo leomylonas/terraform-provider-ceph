@@ -18,7 +18,6 @@ description: |-
 ### Optional
 
 - `name` (String)
-- `owner` (String)
 
 ### Read-Only
 
@@ -30,6 +29,5 @@ description: |-
 Optional:
 
 - `name` (String)
-- `owner` (String)
 - `placement_rule` (String)
 - `versioning_enabled` (Boolean)

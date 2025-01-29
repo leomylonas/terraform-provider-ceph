@@ -29,7 +29,6 @@ type RgwBucketsDataSource struct {
 
 type RgwBucketsDataSourceModel struct {
 	Name    types.String      `tfsdk:"name"`
-	Owner   types.String      `tfsdk:"owner"`
 	Buckets []model.RgwBucket `tfsdk:"buckets"`
 }
 
@@ -41,9 +40,6 @@ func (d *RgwBucketsDataSource) Schema(_ context.Context, _ datasource.SchemaRequ
 	resp.Schema = schema.Schema{
 		Attributes: map[string]schema.Attribute{
 			"name": schema.StringAttribute{ // request
-				Optional: true,
-			},
-			"owner": schema.StringAttribute{ // request
 				Optional: true,
 			},
 			"buckets": schema.ListNestedAttribute{ // response
@@ -86,7 +82,6 @@ func (d *RgwBucketsDataSource) Read(ctx context.Context, req datasource.ReadRequ
 	}
 
 	var name = data.Name.ValueString()
-	var owner = data.Owner.ValueString()
 	bucketNames, err := d.clientLibs.Rgw.ListBuckets(ctx)
 
 	if err != nil {
@@ -105,10 +100,6 @@ func (d *RgwBucketsDataSource) Read(ctx context.Context, req datasource.ReadRequ
 		}
 
 		if name != "" && !strings.Contains(bucket.Bucket, name) {
-			continue
-		}
-
-		if owner != "" && bucket.Owner != owner {
 			continue
 		}
 
