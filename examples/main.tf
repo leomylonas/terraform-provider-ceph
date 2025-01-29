@@ -4,7 +4,7 @@ terraform {
   }
   required_providers {
     ceph = {
-      source = "hashicorp.com/edu/ceph"
+      source = "leomylonas/ceph"
     }
   }
 }
