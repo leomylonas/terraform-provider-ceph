@@ -203,6 +203,27 @@ func GetRgwBucketDatasourceSchema() datasource.Schema {
 					},
 				},
 			},
+			"lifecycle_delete_noncurrent": datasource.ListNestedBlock{
+				NestedObject: datasource.NestedBlockObject{
+					Attributes: map[string]datasource.Attribute{
+						"object_prefix": datasource.StringAttribute{
+							Required: true,
+						},
+						"after_days": datasource.Int64Attribute{
+							Required: true,
+							Validators: []validator.Int64{
+								int64validator.AtLeast(1),
+							},
+						},
+						"id": datasource.StringAttribute{
+							Required: true,
+							Validators: []validator.String{
+								stringvalidator.LengthBetween(10, 255),
+							},
+						},
+					},
+				},
+			},
 		},
 	}
 }
@@ -238,6 +259,27 @@ func GetRgwBucketResourceSchema() resource.Schema {
 				},
 			},
 			"lifecycle_delete": datasource.ListNestedBlock{
+				NestedObject: datasource.NestedBlockObject{
+					Attributes: map[string]datasource.Attribute{
+						"object_prefix": datasource.StringAttribute{
+							Required: true,
+						},
+						"after_days": datasource.Int64Attribute{
+							Required: true,
+							Validators: []validator.Int64{
+								int64validator.AtLeast(1),
+							},
+						},
+						"id": datasource.StringAttribute{
+							Required: true,
+							Validators: []validator.String{
+								stringvalidator.LengthBetween(10, 255),
+							},
+						},
+					},
+				},
+			},
+			"lifecycle_delete_noncurrent": datasource.ListNestedBlock{
 				NestedObject: datasource.NestedBlockObject{
 					Attributes: map[string]datasource.Attribute{
 						"object_prefix": datasource.StringAttribute{
