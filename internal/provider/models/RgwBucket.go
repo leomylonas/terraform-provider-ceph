@@ -28,11 +28,12 @@ type RgwLifecycleDelete struct {
 }
 
 type RgwBucket struct {
-	Name              types.String         `tfsdk:"name"`
-	PlacementRule     types.String         `tfsdk:"placement_rule"`
-	Permissions       []RgwPermission      `tfsdk:"permission"`
-	LifecycleDelete   []RgwLifecycleDelete `tfsdk:"lifecycle_delete"`
-	VersioningEnabled types.Bool           `tfsdk:"versioning_enabled"`
+	Name                      types.String         `tfsdk:"name"`
+	PlacementRule             types.String         `tfsdk:"placement_rule"`
+	Permissions               []RgwPermission      `tfsdk:"permission"`
+	LifecycleDelete           []RgwLifecycleDelete `tfsdk:"lifecycle_delete"`
+	LifecycleDeleteNonCurrent []RgwLifecycleDelete `tfsdk:"lifecycle_delete_noncurrent"`
+	VersioningEnabled         types.Bool           `tfsdk:"versioning_enabled"`
 }
 
 func ToRgwBucket(bucket admin.Bucket) RgwBucket {
@@ -108,6 +109,19 @@ func GenerateS3LifecyclePolicyFromBucket(bucket *RgwBucket) s3.BucketLifecycleCo
 			},
 			Expiration: &s3.LifecycleExpiration{
 				Days: lib.ConvertInt64ToIntPointer(lifecycleDelete.AfterDays.ValueInt64Pointer()),
+			},
+		}
+		rules = append(rules, &rule)
+	}
+	for _, lifecycleDeleteNonCurrent := range bucket.LifecycleDeleteNonCurrent {
+		rule := s3.LifecycleRule{
+			ID:     lifecycleDeleteNonCurrent.Id.ValueStringPointer(),
+			Status: &status,
+			Filter: &s3.LifecycleRuleFilter{
+				Prefix: lifecycleDeleteNonCurrent.Prefix.ValueStringPointer(),
+			},
+			NoncurrentVersionExpiration: &s3.NoncurrentVersionExpiration{
+				NoncurrentDays: lib.ConvertInt64ToIntPointer(lifecycleDeleteNonCurrent.AfterDays.ValueInt64Pointer()),
 			},
 		}
 		rules = append(rules, &rule)
